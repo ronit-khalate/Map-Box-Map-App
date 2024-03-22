@@ -17,4 +17,6 @@ sealed interface MapScreenEvent {
 
     data object OnPointerBottomSheetDismissed:MapScreenEvent
 
+    data object AskPermission:MapScreenEvent
+
 }

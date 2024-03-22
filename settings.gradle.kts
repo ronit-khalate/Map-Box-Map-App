@@ -22,6 +22,7 @@ dependencyResolutionManagement {
 
 
 
+
         // Mapbox Maven repository
         maven {
             // Do not change the username below. It should always be "mapbox" (not your username).

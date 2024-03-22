@@ -41,6 +41,10 @@ class MapScreenViewModel @Inject constructor(
         private set
 
     var currentUserLocation by mutableStateOf<Point?>(null)
+
+
+    var askPermission by mutableStateOf(false)
+        private set
 //
 //    var currentPointer by mutableStateOf<Point?>(null)
 //        private set
@@ -105,6 +109,10 @@ class MapScreenViewModel @Inject constructor(
                 )
             }
 
+            MapScreenEvent.AskPermission -> {
+
+                askPermission=!askPermission
+            }
         }
     }
 

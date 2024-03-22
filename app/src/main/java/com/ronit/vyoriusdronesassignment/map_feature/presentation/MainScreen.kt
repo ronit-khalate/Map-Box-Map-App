@@ -21,6 +21,7 @@ import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.Priority
 import com.google.android.gms.tasks.CancellationTokenSource
 import com.mapbox.geojson.Point
+import com.mapbox.maps.Map
 import com.mapbox.maps.MapboxExperimental
 import com.mapbox.maps.dsl.cameraOptions
 import com.mapbox.maps.extension.compose.animation.viewport.rememberMapViewportState
@@ -67,15 +68,20 @@ fun MainScreen(
 
 
 
-    LaunchedEffect(key1 = Unit) {
+    LaunchedEffect(key1 = viewModel.askPermission) {
 
         if (permissionState.revokedPermissions.isNotEmpty()) {
             permissionState.launchMultiplePermissionRequest()
-        } else {
+        }
+
+        if (permissionState.allPermissionsGranted) {
+
+
             fusedLocationProviderClient!!.getCurrentLocation(
                     Priority.PRIORITY_HIGH_ACCURACY,
                     CancellationTokenSource().token
             )
+
                 .addOnSuccessListener {
 
                     Log.d("Loc", "Long :- ${it.longitude}  ${it.latitude}")
@@ -83,16 +89,17 @@ fun MainScreen(
 
                     mapViewportState.easeTo(
 
-                                    cameraOptions = cameraOptions {
-                                        this.center(Point.fromLngLat(it.longitude,it.latitude))
-                                        zoom(7.0)
+                            cameraOptions = cameraOptions {
+                                this.center(Point.fromLngLat(it.longitude, it.latitude))
+                                zoom(7.0)
 
-                                    }
+                            }
 
                     )
 
                 }
         }
+
     }
 
 
@@ -150,13 +157,15 @@ fun MainScreen(
 
             MapOverLay(viewModel,pointerBottomSheetState){
 
-                mapViewportState.flyTo(
-                        cameraOptions = cameraOptions {
-                            this.center(viewModel.state.currentPointer)
-                            zoom(7.0)
 
-                        }
-                )
+
+                viewModel.onEvent(MapScreenEvent.AskPermission)
+
+
+
+
+
+
             }
 
         }

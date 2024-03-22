@@ -114,7 +114,7 @@ fun MapScreen(
         }
 
 
-        currentLoc.value?.let {
+        viewModel.currentUserLocation?.let {
 
             Log.d("Pointer", "${it.latitude()}")
             CircleAnnotation(
@@ -125,8 +125,6 @@ fun MapScreen(
                     circleStrokeWidth = 3.0,
                     circleColorInt = android.graphics.Color.BLUE
             )
-
-
 
 
 
